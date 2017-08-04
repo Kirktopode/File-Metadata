@@ -24,6 +24,6 @@ app.post('/upload', upload.single('upl'), function(req, res){
     };
     //Immediately delete file, as we just wanted that sweet metadata
     fs.unlinkSync(filepath);
-    
+    res.writeHead(200, {"content-type":"application/json"});
     res.end(JSON.stringify(fileData));
 });

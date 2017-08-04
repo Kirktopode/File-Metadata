@@ -4,9 +4,15 @@
         <title>Gimme Dat File</title>
     </head>
     <body>
-        <form>
-            File: <input type="" name="File Submission"><br>
-            <input type="submit" value="Submit">
+        <form action="/upload" enctype="multipart/form-data" method="post">
+            File: <input type="file" name="upl">
+            <input id="submitbutton" type="submit" value="Submit">
         </form>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                
+            });
+        </script>
     </body>
 </html>

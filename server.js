@@ -1,39 +1,24 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var multer = require('multer');
-var upload = multer({ dest: 'uploads/' });
 var app = express();
-app.listen(process.env.PORT || 8080);
 
-app.use(express.static('view'));
+var port = process.env.PORT || 8080;
+app.listen(port);
+var upload = multer({ dest: './uploads/' });
+//app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post('/test', function(req, res){
-    console.log("testing");
-    res.end();
-});
+console.log("Listening on " + port);
+app.use(bodyParser.json());
+app.use(express.static('views'));
 
-app.post('/profile', upload.single('avatar'), function(req, res, next){
-    
-
-    next();
-});
-
-app.post('/photos/upload', upload.array('photos', 12), function(req, res, next){
-
-
-    next();
-});
-
-var cpUpload = upload.fields([
-    { name: 'avatar', maxCount: 1 }, 
-    { name: 'gallery', maxCount: 8 }
-    ]);
-
-app.post('/cool-profile', cpUpload, function (req, res, next) {
-  // req.files is an object (String -> Array) where fieldname is the key, and the value is array of files 
-  // 
-  // e.g. 
-  //  req.files['avatar'][0] -> File 
-  //  req.files['gallery'] -> Array 
-  // 
-  // req.body will contain the text fields, if there were any 
+app.post('/upload', upload.single('upl'), function(req, res){
+    console.log("POST request for /upload");
+    console.log(req.file);
+    var fileData = {
+        name: req.file.originalname,
+        size: req.file.size,
+        date: new Date().toGMTString()
+    };
+    res.end(JSON.stringify(fileData));
 });
